@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Oráculo da Matriz do Destino | Autoconhecimento & Tarô</title>
+    <meta name="description" content="Calcule seu blueprint energético através do método da Matriz do Destino. Conheça sua personalidade, talentos, carmas e converse com nosso oráculo.">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+
+    <!-- Loading Overlay screen -->
+    <div class="loading-screen" id="loadingScreen">
+        <div class="spinner"></div>
+        <p id="loadingText">Mapeando seu alinhamento cósmico...</p>
+    </div>
+
+    <div class="container">
+        <!-- Header Section -->
+        <header>
+            <h1>Matriz do Destino</h1>
+            <p>Descubra o mapa energético de sua alma e converse com o oráculo</p>
+        </header>
+
+        <!-- Main Dashboard Layout Grid -->
+        <main class="app-grid">
+            
+            <!-- Sidebar: Input Form and Saved Matrices -->
+            <section class="sidebar-column">
+                <div class="card form-card">
+                    <h2 style="font-size: 1.3rem; margin-bottom: 1.5rem; color: var(--purple-glow);">
+                        <i class="fa-solid fa-wand-magic-sparkles"></i> Seus Dados
+                    </h2>
+                    
+                    <form id="matrixForm">
+                        <div class="form-group">
+                            <label for="fullName">Nome Completo</label>
+                            <input type="text" id="fullName" placeholder="Digite seu nome completo" required autocomplete="name">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="birthDate">Data de Nascimento</label>
+                            <input type="date" id="birthDate" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="birthTime">Horário de Nascimento (Opcional)</label>
+                            <input type="time" id="birthTime">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="birthPlace">Local de Nascimento (Opcional)</label>
+                            <input type="text" id="birthPlace" placeholder="Cidade ou País">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="gender">Energia Biológica</label>
+                            <select id="gender">
+                                <option value="feminine">Feminina (Receptiva)</option>
+                                <option value="masculine">Masculina (Ativa)</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group" style="margin-top: 1rem; border-top: 1px solid var(--border-color); padding-top: 1rem;">
+                            <label for="apiKey">Gemini API Key (Opcional)</label>
+                            <input type="password" id="apiKey" placeholder="Insira sua chave para ativar IA real">
+                            <span style="font-size: 0.75rem; color: var(--text-muted); margin-top: 0.3rem; line-height: 1.3;">
+                                Sem chave, o chat funcionará por meio de uma inteligência local simulada super divertida!
+                            </span>
+                        </div>
+
+                        <button type="submit" class="btn btn-primary" style="margin-top: 1rem;">
+                            <i class="fa-solid fa-sparkles"></i> Calcular Matriz
+                        </button>
+                    </form>
+
+                    <!-- Saved Entries Panel -->
+                    <div class="saved-matrices">
+                        <h4><i class="fa-solid fa-book-bookmark"></i> Matrizes Salvas</h4>
+                        <div class="saved-list" id="savedList">
+                            <!-- Dynamically loaded items will go here -->
+                            <p style="font-size: 0.8rem; color: var(--text-muted); font-style: italic;">Nenhuma matriz salva ainda.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Main Panel: Instructions or Matrix Display & Interpretations -->
+            <section class="main-column">
+                
+                <!-- Welcome/Instruction View before calculation -->
+                <div class="card instruction-view" id="instructionView">
+                    <i class="fa-solid fa-compass" style="font-size: 4rem; color: var(--purple-glow); margin-bottom: 1.5rem; filter: drop-shadow(0 0 10px rgba(157, 78, 221, 0.4));"></i>
+                    <h2>Bússola Espiritual da Alma</h2>
+                    <p style="margin-bottom: 1.5rem;">
+                        A Matriz do Destino é um sistema milenar de autoconhecimento que cruza a numerologia com os 22 Arcanos Maiores do Tarô. 
+                        Preencha seus dados de nascimento no formulário ao lado para revelar seu mapa cármico completo, sua missão de alma, as chaves da abundância e o oráculo de orientação.
+                    </p>
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 1rem; text-align: left; margin-top: 2rem;">
+                        <div style="background: rgba(255,255,255,0.02); border: 1px solid var(--border-color); padding: 1rem; border-radius: 10px;">
+                            <h4 style="color: var(--gold-glow); font-size: 0.85rem; margin-bottom: 0.3rem;"><i class="fa-solid fa-sun"></i> Personalidade</h4>
+                            <p style="font-size: 0.8rem; color: var(--text-muted); margin: 0;">Sua energia central e como os outros o veem.</p>
+                        </div>
+                        <div style="background: rgba(255,255,255,0.02); border: 1px solid var(--border-color); padding: 1rem; border-radius: 10px;">
+                            <h4 style="color: var(--pink-glow); font-size: 0.85rem; margin-bottom: 0.3rem;"><i class="fa-solid fa-hands-holding-child"></i> Carma Ancestral</h4>
+                            <p style="font-size: 0.8rem; color: var(--text-muted); margin: 0;">Lições herdadas de suas vidas passadas.</p>
+                        </div>
+                        <div style="background: rgba(255,255,255,0.02); border: 1px solid var(--border-color); padding: 1rem; border-radius: 10px;">
+                            <h4 style="color: var(--blue-glow); font-size: 0.85rem; margin-bottom: 0.3rem;"><i class="fa-solid fa-heart"></i> Amor & Finanças</h4>
+                            <p style="font-size: 0.8rem; color: var(--text-muted); margin: 0;">Suas chaves para a abundância e relações harmônicas.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Matrix and Reading Section (shows after form submits) -->
+                <div class="results-area" id="resultsArea" style="display: none;">
+                    
+                    <!-- SVG Octagram Matrix Graphic -->
+                    <div class="card" style="padding: 1rem; position: relative;">
+                        <h2 style="font-size: 1.2rem; text-align: center; margin-bottom: 1rem; color: var(--purple-glow);">
+                            Seu Blueprint Energético
+                        </h2>
+                        <div class="matrix-container">
+                            <div class="svg-tooltip" id="svgTooltip"></div>
+                            
+                            <!-- Dynamic SVG Matriz rendering inside JavaScript -->
+                            <div id="svgContainer" style="width: 100%; display: flex; justify-content: center;"></div>
+                        </div>
+                    </div>
+
+                    <!-- Detailed Interpretations Panel -->
+                    <div class="card" style="padding: 1.5rem;">
+                        <!-- Nav Tabs -->
+                        <nav class="tabs-nav">
+                            <button class="tab-btn active" data-tab="tab-comfort"><i class="fa-solid fa-yin-yang"></i> Essência</button>
+                            <button class="tab-btn" data-tab="tab-talents"><i class="fa-solid fa-gift"></i> Retrato & Talentos</button>
+                            <button class="tab-btn" data-tab="tab-karma"><i class="fa-solid fa-skull-crossbones"></i> Cauda Cármica</button>
+                            <button class="tab-btn" data-tab="tab-love"><i class="fa-solid fa-heart"></i> Amor</button>
+                            <button class="tab-btn" data-tab="tab-money"><i class="fa-solid fa-coins"></i> Dinheiro</button>
+                            <button class="tab-btn" data-tab="tab-health"><i class="fa-solid fa-heart-pulse"></i> Chakras</button>
+                        </nav>
+
+                        <!-- Tab Content Comfort Zone -->
+                        <div class="tab-content active" id="tab-comfort">
+                            <h3><i class="fa-solid fa-star"></i> Zona de Conforto & Essência Central</h3>
+                            <div class="subtitle" id="comfortArcanaName">Arcano 12 - O Enforcado</div>
+                            <p id="comfortDesc">Seu centro representa quem você é quando está em total equilíbrio. É a sua zona de recarga energética.</p>
+                            <h4 style="color: var(--purple-glow); margin: 1.2rem 0 0.5rem; font-size: 1rem;"><i class="fa-solid fa-plus-circle"></i> Aspectos Positivos (No Fluxo)</h4>
+                            <p id="comfortPlus">Qualidades que você expressa quando está vibrando alto.</p>
+                            <h4 style="color: var(--pink-glow); margin: 1.2rem 0 0.5rem; font-size: 1rem;"><i class="fa-solid fa-minus-circle"></i> Aspectos Negativos (Bloqueios)</h4>
+                            <p id="comfortMinus">Desafios que surgem quando você entra na zona de sombra deste arcano.</p>
+                        </div>
+
+                        <!-- Tab Content Portrait/Talents -->
+                        <div class="tab-content" id="tab-talents">
+                            <h3><i class="fa-solid fa-crown"></i> Retrato Social & Canal de Talentos</h3>
+                            <div class="subtitle" id="portraitArcanaName">Arcano 8 - A Justiça</div>
+                            <p id="portraitDesc">O Retrato Social (dia de nascimento) representa como as pessoas o veem no primeiro contato e a primeira impressão que você passa ao mundo.</p>
+                            <div class="subtitle" id="talentsArcanaName" style="margin-top: 1.5rem;">Arcano 12 - O Enforcado (Mês)</div>
+                            <p id="talentsDesc">O canal de Talentos Espirituais (mês de nascimento) mostra seus dons inatos de conexão espiritual e intuição.</p>
+                        </div>
+
+                        <!-- Tab Content Karmic Tail -->
+                        <div class="tab-content" id="tab-karma">
+                            <h3><i class="fa-solid fa-anchor"></i> Lição Cármica de Vidas Passadas</h3>
+                            <div class="karmic-list" id="karmicCodeList">
+                                <span class="karmic-badge" id="karmicBadgeCode">Código: 18 - 6 - 6</span>
+                                <span class="karmic-badge" style="background: rgba(255, 183, 3, 0.1); color: var(--gold-glow); border-color: rgba(255,183,3,0.3);" id="karmicTailName">Magia do Amor</span>
+                            </div>
+                            <p id="karmaPastLife"><strong>O que aconteceu em vidas passadas:</strong> A bagagem cármica que você herdou e que tende a repetir de forma inconsciente até que a lição seja aprendida.</p>
+                            <h4 style="color: var(--purple-glow); margin: 1.2rem 0 0.5rem; font-size: 1rem;"><i class="fa-solid fa-compass-drafting"></i> Seus Desafios na Vida Atual</h4>
+                            <p id="karmaCurrentLife">Padrões repetitivos ou bloqueios que você enfrenta hoje na saúde, relacionamentos ou autoimagem.</p>
+                            <h4 style="color: var(--teal-glow); margin: 1.2rem 0 0.5rem; font-size: 1rem;"><i class="fa-solid fa-key"></i> Como Curar seu Karma</h4>
+                            <p id="karmaHealing">Ações práticas para transmutar essas energias negativas em virtudes e libertar a sua alma.</p>
+                        </div>
+
+                        <!-- Tab Content Love Line -->
+                        <div class="tab-content" id="tab-love">
+                            <h3><i class="fa-solid fa-heart"></i> Canal de Relacionamentos & Parcerias</h3>
+                            <div class="subtitle" id="loveArcanaName">Arcano 8 - A Justiça</div>
+                            <p id="loveDesc">Esta energia atua como um ímã nos relacionamentos. Mostra o tipo de parceiro que sua alma atrai e como manter a harmonia no amor.</p>
+                            <h4 style="color: var(--purple-glow); margin: 1.2rem 0 0.5rem; font-size: 1rem;"><i class="fa-solid fa-ring"></i> O Parceiro Ideal</h4>
+                            <p id="lovePartner">Características intelectuais e de caráter do parceiro que se alinha com o seu blueprint espiritual.</p>
+                            <h4 style="color: var(--pink-glow); margin: 1.2rem 0 0.5rem; font-size: 1rem;"><i class="fa-solid fa-heart-crack"></i> O que Bloqueia o Amor</h4>
+                            <p id="loveBlocks">Comportamentos e atitudes infantis ou obsessivas que fecham o canal amoroso.</p>
+                        </div>
+
+                        <!-- Tab Content Money Line -->
+                        <div class="tab-content" id="tab-money">
+                            <h3><i class="fa-solid fa-wallet"></i> Canal Financeiro & Profissões da Alma</h3>
+                            <div class="subtitle" id="moneyArcanaName">Arcano 7 - O Carro</div>
+                            <p id="moneyDesc">Este arcano rege o fluxo de dinheiro em sua vida, revelando suas tendências materiais e sua atitude ideal perante o trabalho.</p>
+                            <h4 style="color: var(--purple-glow); margin: 1.2rem 0 0.5rem; font-size: 1rem;"><i class="fa-solid fa-briefcase"></i> Áreas Profissionais Ideais</h4>
+                            <p id="moneyCareers">Carreiras e atividades mais favoráveis onde suas habilidades trarão retorno financeiro natural.</p>
+                            <h4 style="color: var(--pink-glow); margin: 1.2rem 0 0.5rem; font-size: 1rem;"><i class="fa-solid fa-ban"></i> Comportamentos que Bloqueiam a Prosperidade</h4>
+                            <p id="moneyBlocks">Medos, ganância ou desorganização que impedem os recursos de fluírem livremente até você.</p>
+                        </div>
+
+                        <!-- Tab Content Health Map Chakras -->
+                        <div class="tab-content" id="tab-health">
+                            <h3><i class="fa-solid fa-hand-holding-heart"></i> Mapa de Saúde das Chaves dos Chakras</h3>
+                            <p>Tabela de correspondência das energias físicas, energéticas e emocionais de cada centro de força.</p>
+                            
+                            <div class="table-wrapper">
+                                <table>
+                                    <thead>
+                                        <tr>
+                                            <th>Chakra</th>
+                                            <th>Nível Físico (Terra)</th>
+                                            <th>Nível Energético (Céu)</th>
+                                            <th>Emocional (Síntese)</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="chakraTableBody">
+                                        <!-- Dynamically generated rows -->
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                        <!-- Action Buttons -->
+                        <div class="actions-wrapper" style="margin-top: 2rem; display: flex; gap: 1rem;">
+                            <button id="downloadPdfBtn" class="btn btn-primary" style="flex: 1; background: linear-gradient(135deg, var(--blue-glow), var(--purple-dark)); box-shadow: 0 0 15px rgba(76, 201, 240, 0.3);">
+                                <i class="fa-solid fa-file-pdf"></i> Baixar Relatório Completo (PDF)
+                            </button>
+                            <button id="downloadSvgBtn" class="btn btn-secondary" style="flex: 1; margin: 0;">
+                                <i class="fa-solid fa-image"></i> Baixar Gráfico SVG
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Oracle Chat Container -->
+                    <div class="card oracle-chat">
+                        <h2 style="font-size: 1.2rem; color: var(--gold-glow); margin-bottom: 1rem; display: flex; align-items: center; gap: 0.5rem;">
+                            <i class="fa-solid fa-wand-magic-sparkles" style="animation: pulse 1.5s infinite;"></i> Pergunte ao Oráculo Cármico
+                        </h2>
+                        <p style="font-size: 0.88rem; color: var(--text-muted); margin-bottom: 1rem;">
+                            O Oráculo já analisou todas as energias da sua data de nascimento. Tire suas dúvidas sobre seu carma, amor, dinheiro ou o que os astros dizem sobre o seu momento.
+                        </p>
+                        
+                        <div class="chat-box" id="chatBox">
+                            <!-- Oracle initial message -->
+                        </div>
+                        
+                        <div class="chat-input-area">
+                            <input type="text" id="chatInput" placeholder="Ex: Como posso desbloquear meu canal financeiro hoje?">
+                            <button class="chat-send-btn" id="chatSendBtn">
+                                <i class="fa-solid fa-paper-plane"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                </div>
+
+            </section>
+        </main>
+    </div>
+
+    <!-- Logic Script -->
+    <script src="app.js"></script>
+</body>
+</html>
