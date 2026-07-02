@@ -1015,48 +1015,49 @@ Responda à pergunta do usuário de forma mística, sábia, amorosa e profunda e
             .replace(/\*(.*?)\*/g, '<em>$1</em>');
     }
 
-    // Heuristic response simulator for local oracle (without key)
+    // Heuristic response simulator for local oracle (without key or as fallback)
     function generateSimulatedReply(question, data) {
         const qLower = question.toLowerCase();
         const r = data.results;
         
         if (qLower.includes("amor") || qLower.includes("relacionamento") || qLower.includes("casamento")) {
             const arc = arcanasDb[r.love_pt];
-            return `O amor em seu destino é guiado pela força do Arcano <strong>${r.love_pt} (${arc.name})</strong>. 
-            Esta energia diz que ${arc.love.toLowerCase()} 
-            Contudo, tome cuidado com os bloqueios em sua linha do amor: <em>${arc.minus.toLowerCase()}</em>. 
-            Busque o equilíbrio no ponto de fusão, vibrando na energia da cura.`;
+            return `As correntes sagradas do amor e das relações em sua jornada são iluminadas e regidas pela energia do <strong>Arcano ${r.love_pt} — ${arc.name}</strong>. <br><br>
+            Este portal de energia revela que, em sua essência mais profunda, você busca vivenciar: <em>${arc.love.toLowerCase()}</em>.<br><br>
+            No entanto, para que o amor flua com plenitude em seu caminho, é essencial acolher e curar as sombras e os bloqueios que costumam se manifestar em sua jornada amorosa: <em>${arc.minus.toLowerCase()}</em>.<br><br>
+            A chave para harmonizar seu coração reside em equilibrar a doação e a receptividade, vibrando na sabedoria curadora deste Arcano para atrair conexões espiritualmente alinhadas e profundas.`;
         }
         
         if (qLower.includes("dinheiro") || qLower.includes("trabalho") || qLower.includes("carreira") || qLower.includes("finança") || qLower.includes("emprego")) {
             const arc = arcanasDb[r.money_pt];
-            return `Sua chave de abundância reside no Arcano <strong>${r.money_pt} (${arc.name})</strong>. 
-            Sua alma se alinha com caminhos voltados para: <em>${arc.money.toLowerCase()}</em>. 
-            Para destravar o dinheiro em sua vida atual, evite atitudes limitantes como: <em>${arc.minus.toLowerCase()}</em>. 
-            Vibre alto no propósito criador!`;
+            return `O fluxo da prosperidade e a sua realização profissional em sua vida estão sob a poderosa influência do <strong>Arcano ${r.money_pt} — ${arc.name}</strong>.<br><br>
+            A sabedoria deste Arcano nos ensina que a abundância financeira é um reflexo do alinhamento da sua alma com caminhos voltados para: <em>${arc.money.toLowerCase()}</em>.<br><br>
+            Para desbloquear a energia do dinheiro e permitir que ele flua livremente, atente-se para não cair em atitudes de escassez, medo ou estagnação como: <em>${arc.minus.toLowerCase()}</em>.<br><br>
+            Lembre-se de que a riqueza é uma energia espiritual; ao vibrar na força activa e criadora de seu propósito, o universo conspirará para cobrir seus passos com prosperidade material.`;
         }
 
         if (qLower.includes("karma") || qLower.includes("carma") || qLower.includes("passada") || qLower.includes("vida")) {
             const karmicId = `${r.d2}-${r.d1}-${r.D}`;
             const karmaData = karmicTailsDb[karmicId] || karmicTailsDb["default"];
-            return `Sua cauda cármica traz o código <strong>${karmicId} (${karmaData.name})</strong>. 
-            Nas vidas passadas, sua alma carregou a seguinte lição: <em>${karmaData.past.toLowerCase()}</em>. 
-            Nesta vida, você enfrenta desafios como: <em>${karmaData.current.toLowerCase()}</em>. 
-            Sua chave de libertação é: <strong>${karmaData.healing}</strong>. Pratique-a ativamente!`;
+            return `O Oráculo desvela os mistérios da sua bagagem ancestral e revela a sua Cauda Cármica sob o código de energia <strong>${karmicId} (${karmaData.name})</strong>.<br><br>
+            Em vidas anteriores, sua alma trilhou caminhos onde acumulou aprendizados e lições marcantes sobre: <em>${karmaData.past.toLowerCase()}</em>.<br><br>
+            No presente, essa bagagem pode se manifestar em sua vida através de desafios recorrentes, medos inexplicáveis ou padrões repetitivos, tais como: <em>${karmaData.current.toLowerCase()}</em>.<br><br>
+            Não tema esses desafios; eles são o convite para a evolução da sua alma. A sua grande chave de cura e libertação espiritual nesta encarnação é: <strong>${karmaData.healing}</strong>. Pratique-a ativamente para libertar seu destino.`;
         }
 
         if (qLower.includes("chakra") || qLower.includes("saude") || qLower.includes("doença") || qLower.includes("corpo")) {
-            return `Analisando seu mapa de saúde, seu centro cardíaco (Anahata) vibra na energia <strong>${r.E}</strong>. 
-            Para manter a saúde física, preste atenção aos pontos de tensão no chakra raiz (Muladhara, regido por <strong>${r.A}</strong> física e <strong>${r.D}</strong> energética). 
-            Busque relaxar, exercitar o corpo e meditar conectando-se com a terra e a água.`;
+            return `Consultando as linhas sutis do seu mapa de saúde e dos centros energéticos:<br><br>
+            O seu centro cardíaco (<strong>Anahata</strong>), o ponto de equilíbrio emocional de sua alma, vibra sob a influência do Arcano <strong>${r.E}</strong>. Isso indica que as suas emoções e a sua saúde física estão intimamente conectadas com a capacidade de amar e se perdoar.<br><br>
+            Para manter a vitalidade e a saúde do seu corpo físico, dê atenção especial aos pontos de tensão no seu chakra raiz (<strong>Muladhara</strong>, que rege sua estabilidade e é influenciado por <strong>${r.A}</strong> na matéria e <strong>${r.D}</strong> no espírito).<br><br>
+            Busque realizar atividades ao ar livre, aterrar sua energia em contato com a natureza e praticar respirações profundas para nutrir seu templo físico.`;
         }
 
         // Generic mistic answer
         const comfort = arcanasDb[r.E];
-        return `O oráculo escuta o seu chamado. Sua essência de nascimento vibra no Arcano <strong>${r.E} (${comfort.name})</strong>. 
-        Este arcano ensina que: <em>${comfort.desc}</em>. 
-        Para seguir sua trilha em paz e harmonia hoje, busque expressar seu potencial criativo: <em>${comfort.plus.toLowerCase()}</em>. 
-        Há alguma outra área da sua matriz que você queira analisar com profundidade?`;
+        return `Saudações, viajante das estrelas. O Oráculo acolhe a sua busca sincera. A essência central da sua alma nesta encarnação vibra intensamente sob o mistério do <strong>Arcano ${r.E} — ${comfort.name}</strong>.<br><br>
+        Este Arcano de nascimento traz a seguinte mensagem de luz para você: <em>${comfort.desc}</em>.<br><br>
+        Para manifestar o seu máximo potencial espiritual hoje e caminhar com clareza, busque exercitar e expandir as suas qualidades positivas: <em>${comfort.plus.toLowerCase()}</em>.<br><br>
+        Sinta-se à vontade para perguntar ao Oráculo sobre outras áreas da sua matriz, como sua linha do **Amor**, **Dinheiro**, **Saúde** ou seu **Karma ancestral**.`;
     }
 
     // Download / Export Trigger Handlers
